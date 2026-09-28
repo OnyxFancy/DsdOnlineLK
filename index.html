@@ -1,0 +1,1472 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A/L Science Hub - Chemistry & Physics</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts - Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .main-content {
+            flex: 1;
+        }
+        .hero-gradient { background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #1d4ed8 100%); }
+        .card-hover:hover { transform: translateY(-5px); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        
+        /* Smooth page transition & click animation effects inspired by ap.lk */
+        .view-transition {
+            animation: apFadeInScale 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes apFadeInScale {
+            0% {
+                opacity: 0;
+                transform: scale(0.98) translateY(12px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+        .ap-btn-press {
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+        .ap-btn-press:active {
+            transform: scale(0.96);
+        }
+        .click-ripple {
+            position: relative;
+            overflow: hidden;
+        }
+        .click-ripple:after {
+            content: "";
+            display: block;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            background-image: radial-gradient(circle, rgba(59, 130, 246, 0.3) 10%, transparent 10.01%);
+            background-repeat: no-repeat;
+            background-position: 50%;
+            transform: scale(10, 10);
+            opacity: 0;
+            transition: transform 0.5s, opacity 1s;
+        }
+        .click-ripple:active:after {
+            transform: scale(0, 0);
+            opacity: 0.3;
+            transition: 0s;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center flex-wrap gap-2">
+                <div class="flex items-center space-x-3 cursor-pointer ap-btn-press" onclick="showHome()">
+                    <img src="https://dsdonline.lk/assets/images/logo.png" alt="Logo" class="h-8 sm:h-10 w-auto" style="filter: brightness(0) saturate(100%) invert(31%) sepia(93%) saturate(1352%) hue-rotate(202deg) brightness(95%) contrast(92%);">
+                </div>
+                
+                <!-- Instructor Global Save Button (Appears in Top Bar when logged in as Instructor) -->
+                <div id="topBarInstructorSaveContainer" class="hidden">
+                    <button onclick="saveAllDatabaseChanges()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold shadow transition flex items-center click-ripple ap-btn-press">
+                        <i class="fa-solid fa-cloud-arrow-up mr-1.5"></i> Save Changes
+                    </button>
+                </div>
+
+                <div class="hidden md:flex items-center space-x-6 lg:space-x-8 font-medium text-sm lg:text-base">
+                    <a href="#home" onclick="showHome()" class="text-blue-600 hover:text-blue-800 transition">මුල් පිටුව</a>
+                    <a href="#batches" onclick="showHome()" class="text-gray-600 hover:text-blue-600 transition">ബാච් (Batches)</a>
+                    <a href="#rankings" onclick="showRankingsView()" class="text-purple-600 hover:text-purple-800 font-bold transition flex items-center"><i class="fa-solid fa-trophy mr-1"></i> Special Test Rankings</a>
+                </div>
+                <!-- Auth Nav Area -->
+                <div id="authNavArea" class="flex items-center space-x-3">
+                    <button onclick="openAuthModal('login')" class="bg-blue-600 text-white px-4 sm:px-5 py-2 rounded-full shadow hover:bg-blue-700 transition click-ripple ap-btn-press text-xs sm:text-sm font-semibold">
+                        <i class="fa-solid fa-right-to-bracket mr-1.5 sm:mr-2"></i> පිවිසෙන්න (Login)
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div id="home-view" class="view-transition">
+            <!-- Hero Section -->
+            <section id="home" class="hero-gradient text-white py-12 sm:py-20 px-4 text-center relative overflow-hidden">
+                <div class="max-w-4xl mx-auto relative z-10">
+                    <span class="bg-blue-500 bg-opacity-30 border border-blue-300 text-blue-100 text-xs sm:text-sm px-4 py-1.5 rounded-full uppercase tracking-wider font-semibold inline-block mb-4">
+                        🚀 උසස් පෙළ විද්‍යා අංශය (A/L 2027 & 2028)
+                    </span>
+                    <h1 class="text-3xl sm:text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
+                        Chemistry & Physics ජයගන්න <br>අප සමඟ එකතු වන්න!
+                    </h1>
+                    <p class="text-sm sm:text-lg md:text-xl text-blue-100 mb-8 px-2">
+                        Good Morning Papers, Center Papers, Special Tests, පාඩමෙන් පාඩමට Short Notes සහ Quizzes එකම තැනකින්.
+                    </p>
+                    <div class="flex justify-center gap-4 flex-wrap">
+                        <a href="#batches" class="bg-white text-blue-600 font-semibold px-6 sm:px-8 py-3 sm:py-3.5 rounded-xl shadow-lg hover:bg-blue-50 transition transform hover:-translate-y-1 click-ripple ap-btn-press text-sm sm:text-base">
+                            <i class="fa-solid fa-graduation-cap mr-2"></i> ඔබේ Batch එක තෝරන්න
+                        </a>
+                        <button onclick="showRankingsView()" class="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-6 sm:px-8 py-3 sm:py-3.5 rounded-xl shadow-lg transition transform hover:-translate-y-1 click-ripple ap-btn-press flex items-center text-sm sm:text-base">
+                            <i class="fa-solid fa-trophy mr-2"></i> Special Test Rankings බලන්න
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Batch Selection Section (2027 & 2028) -->
+            <section id="batches" class="py-12 sm:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-10 sm:mb-12">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">ඔබේ විභාග වර්ෂය (Batch) තෝරන්න</h2>
+                    <p class="text-gray-600 mt-2 text-sm sm:text-base">අදාළ වර්ෂයට ගැළපෙන සියලුම අධ්‍යාපන සම්පත් මෙතනින් ලබාගත හැක.</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- 2027 A/L Card -->
+                    <div class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 border-t-4 border-blue-600 card-hover">
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="bg-blue-100 text-blue-600 p-3 sm:p-4 rounded-xl text-xl sm:text-2xl font-bold">2027 A/L</div>
+                            <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs sm:text-sm font-semibold">Active Batch</span>
+                        </div>
+                        <h3 class="text-xl sm:text-2xl font-bold text-gray-800 mb-3">2027 උසස් පෙළ (සිංහල මාධ්‍ය)</h3>
+                        <p class="text-gray-600 mb-6 text-sm sm:text-base">Chemistry සහ Physics සදහා වන මූලික සිද්ධාන්ත, විශේෂ පරීක්ෂණ සහ දෛනික ප්‍රශ්න පත්‍ර මාලාව.</p>
+                        <ul class="space-y-2 mb-8 text-gray-700 text-sm sm:text-base">
+                            <li><i class="fa-solid fa-check text-blue-600 mr-2"></i> පාඩම් මාලා අනුව Short Notes</li>
+                            <li><i class="fa-solid fa-check text-blue-600 mr-2"></i> Good Morning Papers & Center Papers</li>
+                            <li><i class="fa-solid fa-check text-blue-600 mr-2"></i> මාසික ඇගයීම් පරීක්ෂණ</li>
+                        </ul>
+                        <button onclick="showResources('2027')" class="w-full bg-blue-600 text-white py-3 rounded-xl font-semibold shadow hover:bg-blue-700 transition click-ripple ap-btn-press text-sm sm:text-base">
+                            2027 පිටුවට පිවිසෙන්න <i class="fa-solid fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+
+                    <!-- 2028 A/L Card -->
+                    <div class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 border-t-4 border-indigo-600 card-hover">
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="bg-indigo-100 text-indigo-600 p-3 sm:p-4 rounded-xl text-xl sm:text-2xl font-bold">2028 A/L</div>
+                            <span class="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-xs sm:text-sm font-semibold">New Batch</span>
+                        </div>
+                        <h3 class="text-xl sm:text-2xl font-bold text-gray-800 mb-3">2028 උසස් පෙළ (සිංහල මාධ්‍ය)</h3>
+                        <p class="text-gray-600 mb-6 text-sm sm:text-base">විෂය නිර්දේශයට අලුතින් එකතු වූ මූලික සංකල්ප සහ මූලික මට්ටමේ ප්‍රශ්න පත්‍ර සාකච්ඡා.</p>
+                        <ul class="space-y-2 mb-8 text-gray-700 text-sm sm:text-base">
+                            <li><i class="fa-solid fa-check text-indigo-600 mr-2"></i> මූලික සිද්ධාන්ත සටහන්</li>
+                            <li><i class="fa-solid fa-check text-indigo-600 mr-2"></i> සරල පුහුණු ප්‍රශ්න පත්‍ර</li>
+                            <li><i class="fa-solid fa-check text-indigo-600 mr-2"></i> පාඩම් අනුව Quizzes</li>
+                        </ul>
+                        <button onclick="showResources('2028')" class="w-full bg-indigo-600 text-white py-3 rounded-xl font-semibold shadow hover:bg-indigo-700 transition click-ripple ap-btn-press text-sm sm:text-base">
+                            2028 පිටුවට පිවිසෙන්න <i class="fa-solid fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Special Test & Rankings View -->
+        <div id="rankings-view" class="hidden py-8 sm:py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto view-transition">
+            <div class="flex justify-between items-center mb-8 bg-purple-50 p-4 rounded-2xl border border-purple-200 flex-wrap gap-4">
+                <div>
+                    <span class="bg-purple-600 text-white text-xs px-3 py-1 rounded-full font-semibold uppercase">Special Test Portal</span>
+                    <h2 class="text-xl sm:text-2xl md:text-3xl font-extrabold text-purple-900 mt-1">Special Test ලකුණු සහ ක්ලාස් රෑන්ක් (Rankings)</h2>
+                </div>
+                <div class="flex gap-2 flex-wrap">
+                    <button onclick="showHome()" class="bg-gray-800 text-white px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold shadow hover:bg-gray-700 transition click-ripple ap-btn-press">
+                        <i class="fa-solid fa-arrow-left mr-2"></i> මුල් පිටුවට යන්න
+                    </button>
+                </div>
+            </div>
+
+            <!-- Add/Edit Marks Form Panel (Instructor Only) -->
+            <div id="instructorRankAddContainer" class="bg-white p-6 md:p-8 rounded-3xl shadow-xl border border-purple-100 mb-10 hidden">
+                <h3 id="rankFormTitle" class="text-lg sm:text-xl font-bold text-gray-900 mb-4 flex items-center">
+                    <i class="fa-solid fa-marker text-purple-600 mr-3"></i> ස්පෙශල් ටෙස්ට් ලකුණු ඇතුළත් කිරීම / සංස්කරණය (Instructor Panel)
+                </h3>
+                <p class="text-gray-600 text-xs sm:text-sm mb-6">ස්පෙශල් ටෙස්ට් අංකය සහ සිසුවාගේ විස්තර ඇතුළත් කර ලකුණු ලබා දී රෑන්ක් සටහන යාවත්කාලීන කරන්න.</p>
+                
+                <form onsubmit="handleSpecialTestSubmit(event)" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-gray-700 mb-1">වසර (Batch Year)</label>
+                        <select id="stBatch" class="w-full px-4 py-3 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 bg-gray-50">
+                            <option value="2027">2027 A/L</option>
+                            <option value="2028">2028 A/L</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-gray-700 mb-1">ස්පෙශල් ටෙස්ට් අංකය (Special Test No)</label>
+                        <input type="text" id="stTestNumber" placeholder="උදා: Test 01 හෝ ST-02" class="w-full px-4 py-3 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" required>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-gray-700 mb-1">လමයාගෙ නම</label>
+                        <input type="text" id="stName" placeholder="උදා: K.A. Nimal Perera" class="w-full px-4 py-3 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" required>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-gray-700 mb-1">සූම් නම්බර් එක (Zoom Number)</label>
+                        <input type="text" id="stZoom" placeholder="උදා: 27101" class="w-full px-4 py-3 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" required>
+                    </div>
+                    <div class="sm:col-span-2 lg:col-span-4">
+                        <label class="block text-xs font-bold uppercase text-gray-700 mb-1">විශය (Subject)</label>
+                        <select id="stSubject" onchange="toggleSubjectInputs()" class="w-full px-4 py-3 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 bg-gray-50">
+                            <option value="Chemistry පමනක්">Chemistry පමණක්</option>
+                            <option value="Physics පමනක්">Physics පමණක්</option>
+                            <option value="විශයන් දෙකේම මුලු ලකුනු">Add the Totle marks of both subject (Chemistry & Physics)</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Chemistry Inputs -->
+                    <div id="chemInputsWrapper" class="contents">
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Chemistry MCQ ලකුනු</label>
+                            <input type="number" id="stMcq" step="0.5" placeholder="උදා: 35" class="w-full px-4 py-3 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Chemistry Essay ලකුනු</label>
+                            <input type="number" id="stEssay" step="0.5" placeholder="උදා: 45" class="w-full px-4 py-3 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500">
+                        </div>
+                    </div>
+
+                    <!-- Physics Inputs -->
+                    <div id="physInputsWrapper" class="contents hidden">
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Physics MCQ ලකුනු</label>
+                            <input type="number" id="stPhysMcq" step="0.5" placeholder="උදා: 30" class="w-full px-4 py-3 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Physics Essay ලකුනු</label>
+                            <input type="number" id="stPhysEssay" step="0.5" placeholder="උදා: 40" class="w-full px-4 py-3 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500">
+                        </div>
+                    </div>
+
+                    <div class="sm:col-span-2 lg:col-span-4 flex items-end">
+                        <button type="submit" id="stSubmitBtn" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-xl shadow-lg transition text-sm flex items-center justify-center click-ripple ap-btn-press">
+                            <i class="fa-solid fa-circle-plus mr-2"></i> ලකුණු ඇතුළත් කර Rank එක සාදන්න
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Filter & Rankings Display Tables per Test -->
+            <div class="bg-white rounded-3xl shadow-xl p-4 sm:p-6 md:p-8 border border-gray-200">
+                <div class="flex justify-between items-center mb-6 flex-wrap gap-4">
+                    <h3 class="text-lg sm:text-xl font-bold text-gray-900 flex items-center">
+                        <i class="fa-solid fa-list-ol text-purple-600 mr-3"></i> ක්ලාස් රෑන්ක් සටහන් (Rank Tables by Test No)
+                    </h3>
+                    <div class="flex gap-3 items-center flex-wrap">
+                        <select id="filterRankBatch" onchange="renderRankingsTable()" class="px-4 py-2 border border-gray-300 rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-purple-500 bg-gray-50">
+                            <option value="2027">2027 Batch</option>
+                            <option value="2028">2028 Batch</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Container for Separate Test Tables -->
+                <div id="testTablesContainer" class="space-y-10">
+                    <!-- Dynamic Tables injected via JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Instructor Student Registration Panel -->
+        <div id="instructorStudentRegContainer" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-6 hidden">
+            <div class="bg-gradient-to-r from-purple-900 to-indigo-900 text-white p-6 rounded-3xl shadow-xl border border-purple-700">
+                <h3 class="text-lg sm:text-xl font-bold mb-2 flex items-center"><i class="fa-solid fa-user-plus mr-3 text-purple-400"></i> නව සිසුවෙකු පද්ධතියට රෙජිස්ටර් කරන්න (Instructor Student Registration)</h3>
+                <p class="text-purple-200 text-xs sm:text-sm mb-4">මෙමගින් අලුත් සිසුවෙකුගේ නම සහ Zoom අංකය ඇතුළත් කර ක්ෂණිකව පද්ධතියේ ලියාපදිංචි කළ හැක.</p>
+                <form onsubmit="handleInstructorRegisterStudent(event)" class="grid sm:grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-purple-200 mb-1">සිසුවාගේ සම්පූර්ණ නම</label>
+                        <input type="text" id="newStudentName" placeholder="උදා: K.A.Nimal Perera" class="w-full px-4 py-2.5 rounded-xl text-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400" required>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-purple-200 mb-1">Zoom අංකය (Zoom Number)</label>
+                        <input type="text" id="newStudentZoom" placeholder="උදා: 27101" class="w-full px-4 py-2.5 rounded-xl text-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400" required>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-purple-200 mb-1">Batch වර්ෂය</label>
+                        <select id="newStudentBatch" class="w-full px-4 py-2.5 rounded-xl text-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400">
+                            <option value="2027">2027 A/L</option>
+                            <option value="2028">2028 A/L</option>
+                        </select>
+                    </div>
+                    <div class="md:col-span-3">
+                        <button type="submit" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-xl shadow transition text-sm flex items-center justify-center click-ripple ap-btn-press w-full">
+                            <i class="fa-solid fa-check mr-2"></i> සිසුවා රෙජිස්ටර් කරන්න (Register Student)
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div id="resources-view" class="hidden py-8 sm:py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto view-transition">
+            <div class="flex justify-between items-center mb-8 bg-blue-50 p-4 rounded-2xl border border-blue-200 flex-wrap gap-4">
+                <div>
+                    <span id="batch-badge" class="bg-blue-600 text-white text-xs px-3 py-1 rounded-full font-semibold uppercase">Batch Dashboard</span>
+                    <h2 id="batch-title" class="text-xl sm:text-2xl md:text-3xl font-extrabold text-blue-900 mt-1">උසස් පෙළ - අධ්‍යාපන සම්පත්</h2>
+                </div>
+                <button onclick="showHome()" class="bg-gray-800 text-white px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold shadow hover:bg-gray-700 transition click-ripple ap-btn-press">
+                    <i class="fa-solid fa-arrow-left mr-2"></i> ආපසු යන්න
+                </button>
+            </div>
+
+            <div class="text-center mb-10 sm:mb-12">
+                <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">Classification of Educational Resources</h2>
+                <p class="text-gray-600 mt-2 text-sm sm:text-base">Chemistry සහ Physics සඳහා අවශ්‍ය සියලුම ලේඛන සහ ප්‍රශ්න පත්‍ර මෙහි වර්ගීකරණය කර ඇත.</p>
+            </div>
+
+            <!-- 6 Interactive Cards -->
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- 1. Good Morning Papers -->
+                <div onclick="openCategoryView('Good Morning Papers', 'Good Morning Papers මාලාව')" class="bg-white p-6 rounded-2xl shadow-md card-hover border border-gray-200 cursor-pointer group click-ripple">
+                    <div class="text-blue-600 text-3xl mb-4 group-hover:scale-110 transition"><i class="fa-solid fa-sun"></i></div>
+                    <h3 class="text-xl font-bold mb-2 text-blue-600">Good Morning Papers</h3>
+                    <p class="text-gray-600 text-sm mb-4">දිනපතා උදෑසන පුහුණු වීමට ලබාදෙන කෙටි ප්‍රශ්න පත්‍ර මාලාව.</p>
+                    <span class="text-blue-600 font-semibold text-sm hover:underline flex items-center">ප්‍රශ්න පත්‍ර බලන්න <i class="fa-solid fa-arrow-right ml-2"></i></span>
+                </div>
+
+                <!-- 2. Center Papers -->
+                <div onclick="openCategoryView('Center Papers', 'Center Papers මාලාව')" class="bg-white p-6 rounded-2xl shadow-md card-hover border border-gray-200 cursor-pointer group click-ripple">
+                    <div class="text-indigo-600 text-3xl mb-4 group-hover:scale-110 transition"><i class="fa-solid fa-building-columns"></i></div>
+                    <h3 class="text-xl font-bold mb-2 text-indigo-600">Center Papers</h3>
+                    <p class="text-gray-600 text-sm mb-4">දිවයින පුරා ප්‍රධාන විභාග මධ්‍යස්ථානවල පවත්වන ලද උසස්ම මට්ටමේ ප්‍රශ්න පත්‍ර.</p>
+                    <span class="text-indigo-600 font-semibold text-sm hover:underline flex items-center">ප්‍රශ්න පත්‍ර බලන්න <i class="fa-solid fa-arrow-right ml-2"></i></span>
+                </div>
+
+                <!-- 3. Special Tests (MCQ & Essay Split) -->
+                <div onclick="openCategoryView('Special Tests', 'විශේෂ පරීක්ෂණ සහ අනුමාන පත්‍ර (MCQ & Essay Split)')" class="bg-white p-6 rounded-2xl shadow-md card-hover border border-gray-200 cursor-pointer group click-ripple">
+                    <div class="text-purple-600 text-3xl mb-4 group-hover:scale-110 transition"><i class="fa-solid fa-award"></i></div>
+                    <h3 class="text-xl font-bold mb-2 text-purple-600">Special Tests</h3>
+                    <p class="text-gray-600 text-sm mb-4">විශේෂ ඒකක පරීක්ෂණ (MCQ සහ Essay වෙන වෙනම Paper & Marking සහිතව).</p>
+                    <span class="text-purple-600 font-semibold text-sm hover:underline flex items-center">ප්‍රශ්න පත්‍ර බලන්න <i class="fa-solid fa-arrow-right ml-2"></i></span>
+                </div>
+
+                <!-- 4. Short Notes -->
+                <div onclick="openCategoryView('Short Notes', 'පාඩම් අනුව Short Notes')" class="bg-white p-6 rounded-2xl shadow-md card-hover border border-gray-200 cursor-pointer group click-ripple">
+                    <div class="text-pink-600 text-3xl mb-4 group-hover:scale-110 transition"><i class="fa-solid fa-book-open"></i></div>
+                    <h3 class="text-xl font-bold mb-2 text-pink-600">පාඩම් අනුව Short Notes</h3>
+                    <p class="text-gray-600 text-sm mb-4">පාඩමෙන් පාඩමට වර්ගීකරණය කරන ලද මතක තබාගත යුතු සටහන් (Single File).</p>
+                    <span class="text-pink-600 font-semibold text-sm hover:underline flex items-center">නෝට්ස් බලන්න <i class="fa-solid fa-arrow-right ml-2"></i></span>
+                </div>
+
+                <!-- 5. Interactive Quizzes -->
+                <div onclick="openCategoryView('Interactive Quizzes', 'Interactive Quizzes මාලාව')" class="bg-white p-6 rounded-2xl shadow-md card-hover border border-gray-200 cursor-pointer group click-ripple">
+                    <div class="text-orange-600 text-3xl mb-4 group-hover:scale-110 transition"><i class="fa-solid fa-clipboard-question"></i></div>
+                    <h3 class="text-xl font-bold mb-2 text-orange-600">Interactive Quizzes</h3>
+                    <p class="text-gray-600 text-sm mb-4">ඔබේ දැනුම පරීක්ෂා කර බැලීමට සකස් කළ ඔන්ලයින් ප්‍රශ්න මාලා.</p>
+                    <span class="text-orange-600 font-semibold text-sm hover:underline flex items-center">Quizzes වෙත යන්න <i class="fa-solid fa-arrow-right ml-2"></i></span>
+                </div>
+
+                <!-- 6. Past Papers -->
+                <div onclick="openCategoryView('Past Papers', 'පසුගිය විභාග ප්‍රශ්න පත්‍ර (MCQ & Essay Split)')" class="bg-white p-6 rounded-2xl shadow-md card-hover border border-gray-200 cursor-pointer group click-ripple">
+                    <div class="text-emerald-600 text-3xl mb-4 group-hover:scale-110 transition"><i class="fa-solid fa-file-lines"></i></div>
+                    <h3 class="text-xl font-bold mb-2 text-emerald-600">Past Papers</h3>
+                    <p class="text-gray-600 text-sm mb-4">පසුගිය විභාග ප්‍රශ්න පත්‍ර සහ පිළිතුරු සටහන් (MCQ සහ Essay වෙන වෙනම).</p>
+                    <span class="text-emerald-600 font-semibold text-sm hover:underline flex items-center">ප්‍රශ්න පත්‍ර බලන්න <i class="fa-solid fa-arrow-right ml-2"></i></span>
+                </div>
+            </div>
+        </div>
+
+        <div id="category-view" class="hidden py-8 sm:py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto view-transition">
+            <div class="flex justify-between items-center mb-8 bg-blue-50 p-4 rounded-2xl border border-blue-200 flex-wrap gap-4">
+                <div>
+                    <span id="category-badge" class="bg-blue-600 text-white text-xs px-3 py-1 rounded-full font-semibold uppercase">Category View</span>
+                    <h2 id="category-main-title" class="text-xl sm:text-2xl md:text-3xl font-extrabold text-blue-900 mt-1">සම්පත් ලැයිස්තුව</h2>
+                </div>
+                <button onclick="backToResources()" class="bg-gray-800 text-white px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold shadow hover:bg-gray-700 transition click-ripple ap-btn-press">
+                    <i class="fa-solid fa-arrow-left mr-2"></i> ආපසු යන්න
+                </button>
+            </div>
+
+            <!-- Real-time Search Bar -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm mb-6 border border-gray-200">
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
+                        <i class="fa-solid fa-search"></i>
+                    </span>
+                    <input type="text" id="resourceSearchInput" oninput="renderCategoryItems()" placeholder="පේපර් අංකය හෝ නම සඳහන් කර සොයන්න (Search by paper name or number)..." class="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50/50">
+                </div>
+            </div>
+
+            <!-- Upload Section -->
+            <div id="uploadSectionContainer" class="bg-white p-6 rounded-2xl shadow-md mb-8 border border-gray-200">
+                <h3 id="uploadPanelTitle" class="text-lg font-bold text-gray-800 mb-4 flex items-center"><i class="fa-solid fa-upload text-blue-600 mr-2"></i> නව සම්පතක් එකතු කරන්න (Teacher Panel)</h3>
+                <div id="uploadInputsContainer" class="grid sm:grid-cols-2 lg:grid-cols-5 gap-4"></div>
+            </div>
+
+            <!-- Chemistry & Physics Subject Filter Tabs -->
+            <div class="flex justify-center space-x-4 mb-8 flex-wrap gap-2">
+                <button id="tab-chemistry" onclick="switchSubjectTab('Chemistry')" class="px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl font-bold shadow transition bg-blue-600 text-white flex items-center click-ripple ap-btn-press text-sm">
+                    <i class="fa-solid fa-flask mr-2"></i> Chemistry සම්පත්
+                </button>
+                <button id="tab-physics" onclick="switchSubjectTab('Physics')" class="px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl font-bold shadow transition bg-white text-gray-700 hover:bg-gray-100 flex items-center border border-gray-200 click-ripple ap-btn-press text-sm">
+                    <i class="fa-solid fa-bolt mr-2"></i> Physics සම්පත්
+                </button>
+            </div>
+
+            <div id="categoryItemsContainer" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </div>
+
+        <div id="authModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden view-transition p-4">
+            <div class="bg-white rounded-3xl shadow-2xl p-6 sm:p-8 max-w-md w-full mx-auto relative border border-gray-100">
+                <button onclick="closeAuthModal()" class="absolute top-5 right-5 text-gray-400 hover:text-gray-600 text-xl"><i class="fa-solid fa-xmark"></i></button>
+                
+                <div class="text-center mb-6">
+                    <div class="bg-blue-100 text-blue-600 w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-3 text-2xl font-bold shadow-inner">
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                    </div>
+                    <h3 class="text-xl sm:text-2xl font-extrabold text-gray-900">පද්ධතියට පිවිසෙන්න (Login)</h3>
+                    <p class="text-gray-500 text-xs mt-1">Excel ශීට් එකේ ලියාපදිංචි කර ඇති ඔබේ නම සහ Zoom අංකය ඇතුළත් කරන්න.</p>
+                </div>
+
+                <form onsubmit="handleAuthSubmit(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-gray-700 mb-1">සිසුවාගේ නම (Full Name as in Excel)</label>
+                        <input type="text" id="authLoginName" placeholder="උදා: R.M.Thathya Nirukshi" class="w-full px-4 py-3 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50" required>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Zoom අංකය (Zoom Number / Password)</label>
+                        <input type="password" id="authZoomNumber" placeholder="උදා: 27001" class="w-full px-4 py-3 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50" required>
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 px-6 rounded-xl shadow-lg transition text-sm flex items-center justify-center click-ripple ap-btn-press">
+                        <i class="fa-solid fa-right-to-bracket mr-2"></i> පිවිසෙන්න (Login)
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-gray-900 text-white py-4 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col sm:flex-row justify-between items-center text-xs text-gray-400 gap-2">
+            <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-atom text-blue-400 text-base"></i>
+                <span class="font-bold text-white">A/L Science Portal</span>
+            </div>
+            <p>Chemistry සහ Physics උසස් පෙළ විභාගය සදහා ශ්‍රී ලංකාවේ අංක එකේ අධ්‍යාපන වේදිකාව.</p>
+            <p class="text-gray-500">&copy; 2026 A/L Science Portal. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        let currentActiveBatch = '2027';
+        let currentCategoryKey = 'Good Morning Papers';
+        let currentActiveTab = 'Chemistry';
+        let currentUser = null;
+
+        let batchResources = {
+            '2027': {
+                'Good Morning Papers': [],
+                'Center Papers': [],
+                'Special Tests': [],
+                'Short Notes': [],
+                'Interactive Quizzes': [],
+                'Past Papers': []
+            },
+            '2028': {
+                'Good Morning Papers': [],
+                'Center Papers': [],
+                'Special Tests': [],
+                'Short Notes': [],
+                'Interactive Quizzes': [],
+                'Past Papers': []
+            }
+        };
+
+        let specialTestRankingsData = {
+            '2027': [],
+            '2028': []
+        };
+
+        let registeredUsers = [
+            { fullName: "R.M.Thathya Nirukshi", email: "27001@al.lk", batch: "2027", zoomNumber: "27001" },
+            { fullName: "W.P Chathurya Pathirathna", email: "27002@al.lk", batch: "2027", zoomNumber: "27002" },
+            { fullName: "H.M Tharushini Navodhya", email: "27003@al.lk", batch: "2027", zoomNumber: "27003" },
+            { fullName: "W.M Januli Senodya", email: "27004@al.lk", batch: "2027", zoomNumber: "27004" },
+            { fullName: "Menuka prabashwara", email: "27005@al.lk", batch: "2027", zoomNumber: "27005" },
+            { fullName: "L.A.M Binara Nethmika", email: "27006@al.lk", batch: "2027", zoomNumber: "27006" },
+            { fullName: "T.M Nemindu Sawanjith", email: "27007@al.lk", batch: "2027", zoomNumber: "27007" },
+            { fullName: "S.M Sashen Vishmal Bandara", email: "27008@al.lk", batch: "2027", zoomNumber: "27008" },
+            { fullName: "P. SAHAN ISURU MIHIRANGA", email: "27009@al.lk", batch: "2027", zoomNumber: "27009" },
+            { fullName: "W.M YESITHA SAMADIITH WEERASINGHE", email: "27011@al.lk", batch: "2027", zoomNumber: "27011" },
+            { fullName: "W.M.Kavindya Kaushalya", email: "27012@al.lk", batch: "2027", zoomNumber: "27012" },
+            { fullName: "R.D.M.M.Rathnayaka", email: "27013@al.lk", batch: "2027", zoomNumber: "27013" },
+            { fullName: "W.M Dinithi Sandunika", email: "27014@al.lk", batch: "2027", zoomNumber: "27014" },
+            { fullName: "R.M.Nipuni Navodya Rathnayaka", email: "27015@al.lk", batch: "2027", zoomNumber: "27015" },
+            { fullName: "N.A.Sachintha Sandeepana", email: "27016@al.lk", batch: "2027", zoomNumber: "27016" },
+            { fullName: "R.M.M.B.Rathnayaka", email: "27017@al.lk", batch: "2027", zoomNumber: "27017" },
+            { fullName: "H.M Senuri Nethma", email: "27018@al.lk", batch: "2027", zoomNumber: "27018" },
+            { fullName: "K.M.Nethmi Kavindya", email: "27019@al.lk", batch: "2027", zoomNumber: "27019" },
+            { fullName: "G.G.S.P Wickramasinghe", email: "27020@al.lk", batch: "2027", zoomNumber: "27020" },
+            { fullName: "N.P.U.G.P.N.Nawarathna", email: "27021@al.lk", batch: "2027", zoomNumber: "27021" },
+            { fullName: "D.M.T.M.Dissanayaka", email: "27022@al.lk", batch: "2027", zoomNumber: "27022" },
+            { fullName: "K.A Kavindi Sandunika", email: "27023@al.lk", batch: "2027", zoomNumber: "27023" },
+            { fullName: "Y.M.D.Sandamini", email: "27024@al.lk", batch: "2027", zoomNumber: "27024" },
+            { fullName: "M.H.F.Nasla", email: "27025@al.lk", batch: "2027", zoomNumber: "27025" },
+            { fullName: "R.M.Nethmi Sanjana Rathnayaka", email: "27026@al.lk", batch: "2027", zoomNumber: "27026" },
+            { fullName: "R.M.Nisal Dinsara Rathnayaka", email: "27027@al.lk", batch: "2027", zoomNumber: "27027" },
+            { fullName: "K.M.Senura Vidusha Kularathna", email: "27028@al.lk", batch: "2027", zoomNumber: "27028" },
+            { fullName: "R.M.Kavishka Nimesh Rathnayaka", email: "27029@al.lk", batch: "2027", zoomNumber: "27029" },
+            { fullName: "K.M.Sithumini Nimasha", email: "27030@al.lk", batch: "2027", zoomNumber: "27030" },
+            { fullName: "H.A.Sachintha Navod", email: "27031@al.lk", batch: "2027", zoomNumber: "27031" },
+            { fullName: "K.G.D.T.Dassanayake", email: "27032@al.lk", batch: "2027", zoomNumber: "27032" },
+            { fullName: "R.M.Nethmi Hansika", email: "27033@al.lk", batch: "2027", zoomNumber: "27033" },
+            { fullName: "K.M.Chanaka Nimsara", email: "27034@al.lk", batch: "2027", zoomNumber: "27034" },
+            { fullName: "G.G.S.P.Wickramasinghe", email: "27035@al.lk", batch: "2027", zoomNumber: "27035" },
+            { fullName: "W.M.Kavindya Kaushalya", email: "27036@al.lk", batch: "2027", zoomNumber: "27036" },
+            { fullName: "H.M.Tharushini Navodhya", email: "27037@al.lk", batch: "2027", zoomNumber: "27037" },
+            { fullName: "R.M.T.Nirukshi", email: "27038@al.lk", batch: "2027", zoomNumber: "27038" },
+            { fullName: "W.P.Chathurya Pathirathna", email: "27039@al.lk", batch: "2027", zoomNumber: "27039" },
+            { fullName: "W.M.Januli Senodya", email: "27040@al.lk", batch: "2027", zoomNumber: "27040" },
+            { fullName: "M.Prabashwara", email: "27041@al.lk", batch: "2027", zoomNumber: "27041" },
+            { fullName: "L.A.M.Binara Nethmika", email: "27042@al.lk", batch: "2027", zoomNumber: "27042" },
+            { fullName: "T.M.Nemindu Sawanjith", email: "27043@al.lk", batch: "2027", zoomNumber: "27043" },
+            { fullName: "S.M.Sashen Vishmal Bandara", email: "27044@al.lk", batch: "2027", zoomNumber: "27044" },
+            { fullName: "P.S.I.Mihiranga", email: "27045@al.lk", batch: "2027", zoomNumber: "27045" },
+            { fullName: "W.M.Y.S.Weerasinghe", email: "27046@al.lk", batch: "2027", zoomNumber: "27046" },
+            { fullName: "R.D.M.M.Rathnayaka", email: "27047@al.lk", batch: "2027", zoomNumber: "27047" },
+            { fullName: "W.M.Dinithi Sandunika", email: "27048@al.lk", batch: "2027", zoomNumber: "27048" },
+            { fullName: "R.M.N.N.Rathnayaka", email: "27049@al.lk", batch: "2027", zoomNumber: "27049" },
+            { fullName: "N.A.S.Sandeepana", email: "27050@al.lk", batch: "2027", zoomNumber: "27050" },
+            { fullName: "H.M.Senuri Nethma", email: "27051@al.lk", batch: "2027", zoomNumber: "27051" },
+            { fullName: "K.M.N.Kavindya", email: "27052@al.lk", batch: "2027", zoomNumber: "27052" },
+            { fullName: "N.P.U.G.P.N.Nawarathna", email: "27053@al.lk", batch: "2027", zoomNumber: "27053" },
+            { fullName: "D.M.T.M.Dissanayaka", email: "27054@al.lk", batch: "2027", zoomNumber: "27054" },
+            { fullName: "K.A.Kavindi Sandunika", email: "27055@al.lk", batch: "2027", zoomNumber: "27055" },
+            { fullName: "Y.M.D.Sandamini", email: "27056@al.lk", batch: "2027", zoomNumber: "27056" },
+            { fullName: "M.H.F.Nasla", email: "27057@al.lk", batch: "2027", zoomNumber: "27057" },
+            { fullName: "R.M.N.S.Rathnayaka", email: "27058@al.lk", batch: "2027", zoomNumber: "27058" },
+            { fullName: "R.M.N.D.Rathnayaka", email: "27059@al.lk", batch: "2027", zoomNumber: "27059" },
+            { fullName: "K.M.S.V.Kularathna", email: "27060@al.lk", batch: "2027", zoomNumber: "27060" },
+            { fullName: "R.M.K.N.Rathnayaka", email: "27061@al.lk", batch: "2027", zoomNumber: "27061" },
+            { fullName: "K.M.Sithumini Nimasha", email: "27062@al.lk", batch: "2027", zoomNumber: "27062" },
+            { fullName: "H.A.Sachintha Navod", email: "27063@al.lk", batch: "2027", zoomNumber: "27063" },
+            { fullName: "K.G.D.T.Dassanayake", email: "27064@al.lk", batch: "2027", zoomNumber: "27064" },
+            { fullName: "R.M.Nethmi Hansika", email: "27065@al.lk", batch: "2027", zoomNumber: "27065" },
+            { fullName: "K.M.Chanaka Nimsara", email: "27066@al.lk", batch: "2027", zoomNumber: "27066" },
+            { fullName: "G.G.S.P.Wickramasinghe", email: "27067@al.lk", batch: "2027", zoomNumber: "27067" },
+            { fullName: "W.M.Kavindya Kaushalya", email: "27068@al.lk", batch: "2027", zoomNumber: "27068" },
+            { fullName: "H.M.Tharushini Navodhya", email: "27069@al.lk", batch: "2027", zoomNumber: "27069" },
+            { fullName: "R.M.T.Nirukshi", email: "27070@al.lk", batch: "2027", zoomNumber: "27070" },
+            { fullName: "W.P.Chathurya Pathirathna", email: "27071@al.lk", batch: "2027", zoomNumber: "27071" },
+            { fullName: "W.M.Januli Senodya", email: "27072@al.lk", batch: "2027", zoomNumber: "27072" },
+            { fullName: "M.Prabashwara", email: "27073@al.lk", batch: "2027", zoomNumber: "27073" },
+            { fullName: "L.A.M.Binara Nethmika", email: "27074@al.lk", batch: "2027", zoomNumber: "27074" },
+            { fullName: "T.M.Nemindu Sawanjith", email: "27075@al.lk", batch: "2027", zoomNumber: "27075" },
+            { fullName: "S.M.Sashen Vishmal Bandara", email: "27076@al.lk", batch: "2027", zoomNumber: "27076" },
+            { fullName: "P.S.I.Mihiranga", email: "27077@al.lk", batch: "2027", zoomNumber: "27077" },
+            { fullName: "W.M.Y.S.Weerasinghe", email: "27078@al.lk", batch: "2027", zoomNumber: "27078" },
+            { fullName: "R.D.M.M.Rathnayaka", email: "27079@al.lk", batch: "2027", zoomNumber: "27079" },
+            { fullName: "W.M.Dinithi Sandunika", email: "27080@al.lk", batch: "2027", zoomNumber: "27080" },
+            { fullName: "R.M.N.N.Rathnayaka", email: "27081@al.lk", batch: "2027", zoomNumber: "27081" },
+            { fullName: "N.A.S.Sandeepana", email: "27082@al.lk", batch: "2027", zoomNumber: "27082" },
+            { fullName: "H.M.Senuri Nethma", email: "27083@al.lk", batch: "2027", zoomNumber: "27083" },
+            { fullName: "K.M.N.Kavindya", email: "27084@al.lk", batch: "2027", zoomNumber: "27084" },
+            { fullName: "N.P.U.G.P.N.Nawarathna", email: "27085@al.lk", batch: "2027", zoomNumber: "27085" },
+            { fullName: "D.M.T.M.Dissanayaka", email: "27086@al.lk", batch: "2027", zoomNumber: "27086" },
+            { fullName: "K.A.Kavindi Sandunika", email: "27087@al.lk", batch: "2027", zoomNumber: "27087" },
+            { fullName: "Y.M.D.Sandamini", email: "27088@al.lk", batch: "2027", zoomNumber: "27088" },
+            { fullName: "M.H.F.Nasla", email: "27089@al.lk", batch: "2027", zoomNumber: "27089" },
+            { fullName: "R.M.N.S.Rathnayaka", email: "27090@al.lk", batch: "2027", zoomNumber: "27090" },
+            { fullName: "R.M.N.D.Rathnayaka", email: "27091@al.lk", batch: "2027", zoomNumber: "27091" },
+            { fullName: "K.M.S.V.Kularathna", email: "27092@al.lk", batch: "2027", zoomNumber: "27092" },
+            { fullName: "R.M.K.N.Rathnayaka", email: "27093@al.lk", batch: "2027", zoomNumber: "27093" },
+            { fullName: "K.M.Sithumini Nimasha", email: "27094@al.lk", batch: "2027", zoomNumber: "27094" },
+            { fullName: "H.A.Sachintha Navod", email: "27095@al.lk", batch: "2027", zoomNumber: "27095" },
+            { fullName: "K.G.D.T.Dassanayake", email: "27096@al.lk", batch: "2027", zoomNumber: "27096" },
+            { fullName: "R.M.Nethmi Hansika", email: "27097@al.lk", batch: "2027", zoomNumber: "27097" },
+            { fullName: "K.M.Chanaka Nimsara", email: "27098@al.lk", batch: "2027", zoomNumber: "27098" },
+            { fullName: "G.G.S.P.Wickramasinghe", email: "27099@al.lk", batch: "2027", zoomNumber: "27099" },
+            { fullName: "W.M.Kavindya Kaushalya", email: "27100@al.lk", batch: "2027", zoomNumber: "27100" },
+            { fullName: "Instructor DSD", email: "instructor@dsd.com", batch: "2027", zoomNumber: "25017" }
+        ];
+
+        // Load saved state from LocalStorage on startup if available
+        try {
+            const savedRes = localStorage.getItem('al_science_batch_resources');
+            if(savedRes) batchResources = JSON.parse(savedRes);
+
+            const savedRankings = localStorage.getItem('al_science_rankings');
+            if(savedRankings) specialTestRankingsData = JSON.parse(savedRankings);
+
+            const savedUsers = localStorage.getItem('al_science_registered_users');
+            if(savedUsers) registeredUsers = JSON.parse(savedUsers);
+        } catch(e) { console.error(e); }
+
+        function saveAllDatabaseChanges() {
+            const isInstructor = currentUser && (currentUser.zoomNumber === '25017' || currentUser.email === 'instructor@dsd.com');
+            if(!isInstructor) {
+                showCustomMessage('අවසර නැත!', 'දත්ත ස්ථිරවම සේව් (Save) කිරීමේ හැකියාව ඇත්තේ Instructor වෙත පමණි.');
+                return;
+            }
+
+            try {
+                localStorage.setItem('al_science_batch_resources', JSON.stringify(batchResources));
+                localStorage.setItem('al_science_rankings', JSON.stringify(specialTestRankingsData));
+                localStorage.setItem('al_science_registered_users', JSON.stringify(registeredUsers));
+                showCustomMessage('සාර්ථකයි!', 'සියලුම සම්පත්, ලකුණු සහ රෑන්ක් විස්තර ඩේටාබේස් එකේ (LocalStorage) සාර්ථකව සේව් කරන ලදී!');
+            } catch(e) {
+                showCustomMessage('දෝෂයකි!', 'සේව් කිරීමේදී දෝෂයක් ඇති විය.');
+            }
+        }
+
+        function showCustomMessage(title, message) {
+            const existingModal = document.getElementById('customAlertModal');
+            if(existingModal) existingModal.remove();
+
+            const modal = document.createElement('div');
+            modal.id = 'customAlertModal';
+            modal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 view-transition p-4';
+            modal.innerHTML = `
+                <div class="bg-white rounded-2xl shadow-2xl p-6 max-w-sm w-full mx-auto text-center border border-gray-100">
+                    <div class="bg-blue-100 text-blue-600 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3 text-xl font-bold">
+                        <i class="fa-solid fa-info"></i>
+                    </div>
+                    <h4 class="text-lg font-bold text-gray-900 mb-1">${title}</h4>
+                    <p class="text-gray-600 text-sm mb-6">${message}</p>
+                    <button onclick="document.getElementById('customAlertModal').remove()" class="w-full bg-blue-600 text-white font-semibold py-2.5 rounded-xl shadow hover:bg-blue-700 transition click-ripple ap-btn-press text-sm">
+                        තේරුම් ගතිමි (OK)
+                    </button>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        function toggleSubjectInputs() {
+            const subjectVal = document.getElementById('stSubject').value;
+            const chemWrapper = document.getElementById('chemInputsWrapper');
+            const physWrapper = document.getElementById('physInputsWrapper');
+            
+            if(subjectVal === 'Chemistry පමනක්') {
+                chemWrapper.classList.remove('hidden');
+                physWrapper.classList.add('hidden');
+            } else if(subjectVal === 'Physics පමනක්') {
+                chemWrapper.classList.add('hidden');
+                physWrapper.classList.remove('hidden');
+            } else {
+                chemWrapper.classList.remove('hidden');
+                physWrapper.classList.remove('hidden');
+            }
+        }
+
+        function showRankingsView() {
+            document.getElementById('home-view').style.display = 'none';
+            document.getElementById('resources-view').classList.add('hidden');
+            document.getElementById('category-view').classList.add('hidden');
+            
+            const rView = document.getElementById('rankings-view');
+            rView.classList.remove('hidden');
+            checkInstructorUI();
+            renderRankingsTable();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function handleSpecialTestSubmit(event) {
+            event.preventDefault();
+            const isInstructor = currentUser && (currentUser.zoomNumber === '25017' || currentUser.email === 'instructor@dsd.com');
+            if(!isInstructor) {
+                showCustomMessage('අවසර නැත!', 'ස්පෙශල් ටෙස්ට් ලකුණු ඇතුළත් කිරීමේ හැකියාව ඇත්තේ Instructor වෙත පමණි.');
+                return;
+            }
+
+            const batch = document.getElementById('stBatch').value;
+            const testNo = document.getElementById('stTestNumber').value.trim();
+            const name = document.getElementById('stName').value.trim();
+            const zoom = document.getElementById('stZoom').value.trim();
+            const subject = document.getElementById('stSubject').value;
+
+            let chemMcq = 0, chemEssay = 0, physMcq = 0, physEssay = 0, total = 0, average = 0;
+
+            if(subject === 'විශයන් දෙකේම මුලු ලකුනු') {
+                chemMcq = parseFloat(document.getElementById('stMcq').value) || 0;
+                chemEssay = parseFloat(document.getElementById('stEssay').value) || 0;
+                physMcq = parseFloat(document.getElementById('stPhysMcq').value) || 0;
+                physEssay = parseFloat(document.getElementById('stPhysEssay').value) || 0;
+                total = chemMcq + chemEssay + physMcq + physEssay;
+                average = total / 4;
+            } else if(subject === 'Chemistry පමනක්') {
+                chemMcq = parseFloat(document.getElementById('stMcq').value) || 0;
+                chemEssay = parseFloat(document.getElementById('stEssay').value) || 0;
+                total = chemMcq + chemEssay;
+                average = total / 2;
+            } else {
+                physMcq = parseFloat(document.getElementById('stPhysMcq').value) || 0;
+                physEssay = parseFloat(document.getElementById('stPhysEssay').value) || 0;
+                total = physMcq + physEssay;
+                average = total / 2;
+            }
+
+            if(!specialTestRankingsData[batch]) {
+                specialTestRankingsData[batch] = [];
+            }
+
+            const existingIdx = specialTestRankingsData[batch].findIndex(item => item.zoom === zoom && item.testNo.toLowerCase() === testNo.toLowerCase());
+            const entry = { testNo, name, zoom, subject, chemMcq, chemEssay, physMcq, physEssay, total, average };
+
+            if(existingIdx >= 0) {
+                specialTestRankingsData[batch][existingIdx] = entry;
+            } else {
+                specialTestRankingsData[batch].push(entry);
+            }
+
+            document.getElementById('stTestNumber').value = '';
+            document.getElementById('stName').value = '';
+            document.getElementById('stZoom').value = '';
+            document.getElementById('stMcq').value = '';
+            document.getElementById('stEssay').value = '';
+            document.getElementById('stPhysMcq').value = '';
+            document.getElementById('stPhysEssay').value = '';
+            document.getElementById('stTestNumber').readOnly = false;
+            document.getElementById('stZoom').readOnly = false;
+            document.getElementById('stSubmitBtn').innerHTML = `<i class="fa-solid fa-circle-plus mr-2"></i> ලකුණු ඇතුළත් කර Rank එක සාදන්න`;
+            document.getElementById('physInputsWrapper').classList.add('hidden');
+            document.getElementById('chemInputsWrapper').classList.remove('hidden');
+
+            document.getElementById('filterRankBatch').value = batch;
+            renderRankingsTable();
+            showCustomMessage('සාර්ථකයි!', `${testNo} සඳහා ${name} (${zoom}) සිසුවාගේ ලකුණු යාවත්කාලීන කර රෑන්ක් සටහන ඔටෝ අප්ඩේට් කරන ලදී!`);
+        }
+
+        function editRankItem(batch, zoom, testNo) {
+            const list = specialTestRankingsData[batch] || [];
+            const item = list.find(i => i.zoom === zoom && i.testNo === testNo);
+            if(!item) return;
+
+            document.getElementById('stBatch').value = batch;
+            document.getElementById('stTestNumber').value = item.testNo;
+            document.getElementById('stTestNumber').readOnly = true;
+            document.getElementById('stName').value = item.name;
+            document.getElementById('stZoom').value = item.zoom;
+            document.getElementById('stZoom').readOnly = true;
+            document.getElementById('stSubject').value = item.subject;
+            toggleSubjectInputs();
+            document.getElementById('stMcq').value = item.chemMcq;
+            document.getElementById('stEssay').value = item.chemEssay;
+            document.getElementById('stPhysMcq').value = item.physMcq;
+            document.getElementById('stPhysEssay').value = item.physEssay;
+
+            document.getElementById('stSubmitBtn').innerHTML = `<i class="fa-solid fa-pen-to-square mr-2"></i> ලකුණු වෙනස් කර අප්ඩේට් කරන්න`;
+            window.scrollTo({ top: 200, behavior: 'smooth' });
+        }
+
+        function deleteRankItem(batch, zoom, testNo) {
+            const isInstructor = currentUser && (currentUser.zoomNumber === '25017' || currentUser.email === 'instructor@dsd.com');
+            if(!isInstructor) {
+                showCustomMessage('අවසර නැත!', 'මෙම නම ඉවත් කිරීමට ඔබට අවසර නැත.');
+                return;
+            }
+
+            if(confirm(`මෙම සිසුවාගේ (${zoom} - ${testNo}) රෑන්ක් සටහන ඩිලීට් කිරීමට අවශ්‍ය බව ස්ථිරද?`)) {
+                let list = specialTestRankingsData[batch] || [];
+                specialTestRankingsData[batch] = list.filter(i => !(i.zoom === zoom && i.testNo === testNo));
+                renderRankingsTable();
+                showCustomMessage('සාර්ථකයි!', 'රෑන්ක් ලිස්ට් එකෙන් නම සාර්ථකව ඩිලීට් කරන ලදී.');
+            }
+        }
+
+        function downloadTestExcel(batch, testNo) {
+            let list = specialTestRankingsData[batch] || [];
+            let testList = list.filter(item => item.testNo === testNo);
+            testList.sort((a, b) => b.total - a.total);
+
+            if(testList.length === 0) {
+                showCustomMessage('දත්ත නොමැත', 'ඩවුන්ලෝඩ් කිරීමට දත්ත කිසිවක් නොමැත.');
+                return;
+            }
+
+            let csvContent = "\uFEFFRank,Student Name,Zoom Number,Subject,Chem MCQ,Chem Essay,Phys MCQ,Phys Essay,Total Marks,Average\n";
+            testList.forEach((item, index) => {
+                csvContent += `"${index + 1}","${item.name}","${item.zoom}","${item.subject}","${item.chemMcq}","${item.chemEssay}","${item.physMcq}","${item.physEssay}","${item.total}","${item.average.toFixed(1)}"\n`;
+            });
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.setAttribute('href', url);
+            a.setAttribute('download', `Class_Rank_${testNo}_${batch}.csv`);
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        function renderRankingsTable() {
+            const batch = document.getElementById('filterRankBatch').value;
+            const container = document.getElementById('testTablesContainer');
+            container.innerHTML = '';
+
+            let list = specialTestRankingsData[batch] || [];
+
+            if(list.length === 0) {
+                container.innerHTML = `
+                    <div class="p-8 text-center text-gray-500 font-medium bg-gray-50 rounded-2xl border border-gray-200">
+                        මෙම Batch එක සඳහා Special Test ලකුණු කිසිවක් තවම ඇතුළත් කර නැත.
+                    </div>
+                `;
+                return;
+            }
+
+            const uniqueTestNos = [...new Set(list.map(item => item.testNo))];
+
+            uniqueTestNos.forEach(testNo => {
+                let testList = list.filter(item => item.testNo === testNo);
+                testList.sort((a, b) => b.total - a.total);
+
+                const isInstructor = currentUser && (currentUser.zoomNumber === '25017' || currentUser.email === 'instructor@dsd.com');
+
+                let tableCard = document.createElement('div');
+                tableCard.className = 'bg-gray-50/70 border border-purple-100 rounded-2xl p-4 md:p-6 shadow-sm';
+
+                let headerHTML = `
+                    <div class="flex justify-between items-center mb-4 flex-wrap gap-3">
+                        <h4 class="text-base sm:text-lg font-extrabold text-purple-900 flex items-center">
+                            <i class="fa-solid fa-award text-purple-600 mr-2"></i> ${testNo} - Class Rank Table
+                        </h4>
+                        <button onclick="downloadTestExcel('${batch}', '${testNo}')" class="bg-green-600 text-white px-3 sm:px-4 py-2 rounded-xl text-xs font-semibold shadow hover:bg-green-700 transition click-ripple ap-btn-press flex items-center">
+                            <i class="fa-solid fa-file-excel mr-2"></i> ${testNo} Excel ඩවුන්ලෝඩ් කරන්න
+                        </button>
+                    </div>
+                `;
+
+                let rowsHTML = '';
+                testList.forEach((item, index) => {
+                    const rank = index + 1;
+                    let rankBadge = `<span class="bg-gray-200 text-gray-800 px-2.5 py-1 rounded-full font-bold text-xs">${rank}</span>`;
+                    if(rank === 1) rankBadge = `<span class="bg-amber-100 text-amber-700 px-2.5 py-1 rounded-full font-bold text-xs"><i class="fa-solid fa-crown mr-1"></i> 1st</span>`;
+                    else if(rank === 2) rankBadge = `<span class="bg-slate-200 text-slate-700 px-2.5 py-1 rounded-full font-bold text-xs"><i class="fa-solid fa-medal mr-1"></i> 2nd</span>`;
+                    else if(rank === 3) rankBadge = `<span class="bg-orange-100 text-orange-700 px-2.5 py-1 rounded-full font-bold text-xs"><i class="fa-solid fa-award mr-1"></i> 3rd</span>`;
+
+                    let actionTD = '';
+                    if(isInstructor) {
+                        actionTD = `
+                            <td class="p-3 whitespace-nowrap flex gap-2">
+                                <button onclick="editRankItem('${batch}', '${item.zoom}', '${item.testNo}')" class="bg-blue-100 hover:bg-blue-600 text-blue-600 hover:text-white px-2.5 py-1 rounded-lg text-xs font-semibold transition" title="Edit">
+                                    <i class="fa-solid fa-pen"></i>
+                                </button>
+                                <button onclick="deleteRankItem('${batch}', '${item.zoom}', '${item.testNo}')" class="bg-red-100 hover:bg-red-600 text-red-600 hover:text-white px-2.5 py-1 rounded-lg text-xs font-semibold transition" title="Delete">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </td>
+                        `;
+                    }
+
+                    rowsHTML += `
+                        <tr class="hover:bg-purple-100/40 transition bg-white">
+                            <td class="p-3 whitespace-nowrap">${rankBadge}</td>
+                            <td class="p-3 whitespace-nowrap font-bold text-gray-900">${item.name}</td>
+                            <td class="p-3 whitespace-nowrap font-mono text-purple-600 font-semibold">${item.zoom}</td>
+                            <td class="p-3 whitespace-nowrap text-xs font-semibold text-gray-600">${item.subject}</td>
+                            <td class="p-3 whitespace-nowrap text-center">${item.chemMcq}</td>
+                            <td class="p-3 whitespace-nowrap text-center">${item.chemEssay}</td>
+                            <td class="p-3 whitespace-nowrap text-center">${item.physMcq}</td>
+                            <td class="p-3 whitespace-nowrap text-center">${item.physEssay}</td>
+                            <td class="p-3 whitespace-nowrap font-bold text-blue-600 text-center">${item.total}</td>
+                            <td class="p-3 whitespace-nowrap font-semibold text-emerald-600 text-center">${item.average.toFixed(1)}</td>
+                            ${isInstructor ? actionTD : ''}
+                        </tr>
+                    `;
+                });
+
+                tableCard.innerHTML = `
+                    ${headerHTML}
+                    <div class="overflow-x-auto rounded-xl border border-gray-200">
+                        <table class="w-full text-left border-collapse min-w-[950px]">
+                            <thead>
+                                <tr class="bg-purple-900 text-white text-xs uppercase tracking-wider">
+                                    <th class="p-3">රෑන්ක්</th>
+                                    <th class="p-3">ලමයාගෙ නම</th>
+                                    <th class="p-3">සූම් නම්බර්</th>
+                                    <th class="p-3">විශය</th>
+                                    <th class="p-3 text-center">Chem MCQ</th>
+                                    <th class="p-3 text-center">Chem Essay</th>
+                                    <th class="p-3 text-center">Phys MCQ</th>
+                                    <th class="p-3 text-center">Phys Essay</th>
+                                    <th class="p-3 text-center">මුලු ලකුනු</th>
+                                    <th class="p-3 text-center">ඇවරේජ්</th>
+                                    ${isInstructor ? '<th class="p-3">ක්‍රියා</th>' : ''}
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100 text-sm text-gray-700">
+                                ${rowsHTML}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+
+                container.appendChild(tableCard);
+            });
+        }
+
+        function openAuthModal(mode) {
+            document.getElementById('authModal').classList.remove('hidden');
+        }
+
+        function closeAuthModal() {
+            document.getElementById('authModal').classList.add('hidden');
+        }
+
+        function handleAuthSubmit(event) {
+            event.preventDefault();
+            const loginName = document.getElementById('authLoginName').value.trim();
+            const zoomNum = document.getElementById('authZoomNumber').value.trim();
+            
+            if(!loginName || !zoomNum) {
+                showCustomMessage('දෝෂයකි!', 'කරුණාකර ඔබේ නම සහ Zoom අංකය ඇතුළත් කරන්න!');
+                return;
+            }
+
+            const foundUser = registeredUsers.find(u => u.zoomNumber === zoomNum && u.fullName.toLowerCase() === loginName.toLowerCase());
+            
+            if(!foundUser) {
+                showCustomMessage('දෝෂයකි!', 'ඇතුළත් කළ නම හෝ Zoom අංකය Excel ලේඛනයේ (Sheet එකේ) නොමැත හෝ වැරදියි!');
+                return;
+            }
+
+            const activeSessionKey = 'active_session_' + foundUser.zoomNumber;
+            let currentDeviceToken = localStorage.getItem('app_device_token');
+            if(!currentDeviceToken) {
+                currentDeviceToken = 'dev_' + Math.random().toString(36).substring(2) + Date.now();
+                localStorage.setItem('app_device_token', currentDeviceToken);
+            }
+
+            const existingSessionToken = localStorage.getItem(activeSessionKey);
+            if(existingSessionToken && existingSessionToken !== currentDeviceToken) {
+                showCustomMessage('සීමා කර ඇත!', 'මෙම Zoom අංකයෙන් දැනටමත් වෙනත් ඩිවයිස් එකකින් ලොග් වී ඇත. එකම අංකයකින් එක ඩිවයිස් එකකින් පමණක් ලොග් විය හැක!');
+                return;
+            }
+
+            localStorage.setItem(activeSessionKey, currentDeviceToken);
+
+            currentUser = foundUser;
+            closeAuthModal();
+            updateAuthNavUI();
+            checkInstructorUI();
+            renderCategoryItems();
+            showCustomMessage('සාර්ථකයි!', `ආයුබෝවන් ${foundUser.fullName}! ඔබ සාර්ථකව පිවිස ඇත.`);
+            showResources(foundUser.batch);
+        }
+
+        function updateAuthNavUI() {
+            const authNavArea = document.getElementById('authNavArea');
+            if(currentUser) {
+                const isInstructor = (currentUser.zoomNumber === '25017' || currentUser.email === 'instructor@dsd.com');
+                authNavArea.innerHTML = `
+                    <div class="flex items-center space-x-2 sm:space-x-3 bg-blue-50 border border-blue-200 px-3 sm:px-4 py-2 rounded-2xl">
+                        <div class="bg-blue-600 text-white w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center font-bold text-xs sm:text-sm">
+                            ${currentUser.fullName.charAt(0)}
+                        </div>
+                        <div class="text-left hidden sm:block">
+                            <p class="text-xs font-bold text-blue-900">${currentUser.fullName} ${isInstructor ? '<span class="text-purple-600 font-extrabold">(Instructor)</span>' : ''}</p>
+                            <p class="text-[10px] text-blue-600 font-semibold">Batch: ${currentUser.batch} | Zoom: ${currentUser.zoomNumber}</p>
+                        </div>
+                        <button onclick="handleLogout()" class="text-gray-400 hover:text-red-600 ml-1 sm:ml-2 text-sm" title="Logout"><i class="fa-solid fa-right-from-bracket"></i></button>
+                    </div>
+                `;
+            } else {
+                authNavArea.innerHTML = `
+                    <button onclick="openAuthModal('login')" class="bg-blue-600 text-white px-4 sm:px-5 py-2 rounded-full shadow hover:bg-blue-700 transition click-ripple ap-btn-press text-xs sm:text-sm font-semibold">
+                        <i class="fa-solid fa-right-to-bracket mr-1.5 sm:mr-2"></i> පිවිසෙන්න (Login)
+                    </button>
+                `;
+            }
+        }
+
+        function checkInstructorUI() {
+            const instContainer = document.getElementById('instructorStudentRegContainer');
+            const instructorRankAddContainer = document.getElementById('instructorRankAddContainer');
+            const topBarSave = document.getElementById('topBarInstructorSaveContainer');
+            const isInstructor = currentUser && (currentUser.zoomNumber === '25017' || currentUser.email === 'instructor@dsd.com');
+            
+            if(isInstructor) {
+                if(instContainer) instContainer.classList.remove('hidden');
+                if(instructorRankAddContainer) instructorRankAddContainer.classList.remove('hidden');
+                if(topBarSave) topBarSave.classList.remove('hidden');
+            } else {
+                if(instContainer) instContainer.classList.add('hidden');
+                if(instructorRankAddContainer) instructorRankAddContainer.classList.add('hidden');
+                if(topBarSave) topBarSave.classList.add('hidden');
+            }
+            renderRankingsTable();
+        }
+
+        function handleInstructorRegisterStudent(event) {
+            event.preventDefault();
+            const isInstructor = currentUser && (currentUser.zoomNumber === '25017' || currentUser.email === 'instructor@dsd.com');
+            if(!isInstructor) {
+                showCustomMessage('අවසර නැත!', 'සිසුන් ලියාපදිංචි කිරීමේ හැකියාව ඇත්තේ Instructor වෙත පමණි.');
+                return;
+            }
+
+            const name = document.getElementById('newStudentName').value.trim();
+            const zoom = document.getElementById('newStudentZoom').value.trim();
+            const batch = document.getElementById('newStudentBatch').value;
+
+            if(!name || !zoom) {
+                showCustomMessage('දෝෂයකි!', 'කරුණාකර සිසුවාගේ නම සහ Zoom අංකය ඇතුළත් කරන්න!');
+                return;
+            }
+
+            const existing = registeredUsers.find(u => u.zoomNumber === zoom);
+            if(existing) {
+                showCustomMessage('දෝෂයකි!', `මෙම Zoom අංකය (${zoom}) දැනටමත් පද්ධතියේ ලියාපදිංචි වී ඇත!`);
+                return;
+            }
+
+            const newStudent = {
+                fullName: name,
+                email: zoom + "@al.lk",
+                batch: batch,
+                zoomNumber: zoom
+            };
+            registeredUsers.push(newStudent);
+
+            document.getElementById('newStudentName').value = '';
+            document.getElementById('newStudentZoom').value = '';
+
+            showCustomMessage('සාර්ථකයි!', `${name} (${zoom}) සිසුවා 20${batch} Batch එක සඳහා සාර්ථකව රෙජිස්ටර් කරන ලදී!`);
+        }
+
+        function handleLogout() {
+            if(currentUser) {
+                localStorage.removeItem('active_session_' + currentUser.zoomNumber);
+            }
+            currentUser = null;
+            updateAuthNavUI();
+            checkInstructorUI();
+            renderCategoryItems();
+            showHome();
+            showCustomMessage('සාර්ථකයි!', 'ඔබ සාර්ථකව ගිණුමෙන් ඉවත් විය.');
+        }
+
+        function showResources(batchYear) {
+            currentActiveBatch = batchYear;
+            document.getElementById('home-view').style.display = 'none';
+            document.getElementById('rankings-view').classList.add('hidden');
+            document.getElementById('category-view').classList.add('hidden');
+            
+            const resView = document.getElementById('resources-view');
+            resView.classList.remove('hidden');
+            
+            document.getElementById('batch-badge').innerText = batchYear + ' Batch Dashboard';
+            document.getElementById('batch-title').innerText = batchYear + ' උසස් පෙළ - අධ්‍යාපන සම්පත්';
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function openCategoryView(categoryKey, categoryHeaderTitle) {
+            currentCategoryKey = categoryKey;
+            currentActiveTab = 'Chemistry';
+            
+            const searchInput = document.getElementById('resourceSearchInput');
+            if(searchInput) searchInput.value = '';
+
+            document.getElementById('resources-view').classList.add('hidden');
+            const catView = document.getElementById('category-view');
+            catView.classList.remove('hidden');
+            
+            document.getElementById('category-badge').innerText = currentActiveBatch + ' Batch - ' + categoryKey;
+            document.getElementById('category-main-title').innerText = categoryHeaderTitle;
+            
+            renderUploadInputs();
+            switchSubjectTab('Chemistry');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderUploadInputs() {
+            const uploadSection = document.getElementById('uploadSectionContainer');
+            const isInstructor = currentUser && (currentUser.zoomNumber === '25017' || currentUser.email === 'instructor@dsd.com');
+
+            if(!isInstructor) {
+                uploadSection.innerHTML = `
+                    <div class="text-center py-6">
+                        <i class="fa-solid fa-shield-halved text-blue-400 text-3xl mb-2"></i>
+                        <h4 class="text-base font-bold text-gray-700">පීඩීඑෆ් (PDF) එකතු කිරීමේ හැකියාව ඇත්තේ Instructor වෙත පමණි.</h4>
+                        <p class="text-xs text-gray-500 mt-1">කරුණාකර ඉහත Login බොත්තම ක්ලික් කර නිවැරදි Zoom අංකයෙන් පිවිසෙන්න.</p>
+                        <button onclick="openAuthModal('login')" class="mt-4 bg-blue-600 text-white px-6 py-2 rounded-xl text-xs font-semibold shadow hover:bg-blue-700 transition click-ripple ap-btn-press">
+                            පීඩීඑෆ් එකතු කිරීමට පිවිසෙන්න (Login)
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            uploadSection.innerHTML = `
+                <h3 id="uploadPanelTitle" class="text-lg font-bold text-gray-800 mb-4 flex items-center"><i class="fa-solid fa-upload text-blue-600 mr-2"></i> නව සම්පතක් එකතු කරන්න (Instructor Panel - ${currentUser.fullName})</h3>
+                <div id="uploadInputsContainer" class="grid sm:grid-cols-2 lg:grid-cols-5 gap-4"></div>
+            `;
+            
+            const activeContainer = document.getElementById('uploadInputsContainer');
+
+            if (currentCategoryKey === 'Special Tests' || currentCategoryKey === 'Past Papers') {
+                activeContainer.innerHTML = `
+                    <input type="text" id="resTitle" placeholder="මාතෘකාව (උදා: Exam Set 02)" class="border border-gray-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <select id="resSubject" class="border border-gray-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="Chemistry">Chemistry</option>
+                        <option value="Physics">Physics</option>
+                    </select>
+                    <input type="text" id="resMcqPaper" placeholder="MCQ PDF Link (URL)" class="border border-gray-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <input type="text" id="resMcqMarking" placeholder="MCQ Marking PDF Link (URL)" class="border border-gray-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <input type="text" id="resEssayPaper" placeholder="Essay PDF Link (URL)" class="border border-gray-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <input type="text" id="resEssayMarking" placeholder="Essay Marking PDF Link (URL)" class="border border-gray-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <button onclick="addNewResource()" class="sm:col-span-2 lg:col-span-full bg-purple-600 text-white font-semibold py-2 rounded-xl shadow hover:bg-purple-700 transition text-sm flex items-center justify-center click-ripple ap-btn-press">
+                        <i class="fa-solid fa-cloud-arrow-up mr-2"></i> පීඩීඑෆ් එකතු කරන්න (Upload PDF)
+                    </button>
+                `;
+            } else if (currentCategoryKey === 'Short Notes') {
+                activeContainer.innerHTML = `
+                    <input type="text" id="resTitle" placeholder="මාතෘකාව (උදා: Organic Short Note)" class="border border-gray-300 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <select id="resSubject" class="border border-gray-300 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="Chemistry">Chemistry</option>
+                        <option value="Physics">Physics</option>
+                    </select>
+                    <input type="text" id="resPaperLink" placeholder="Short Note PDF Link (URL)" class="border border-gray-300 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 sm:col-span-2">
+                    <button onclick="addNewResource()" class="bg-pink-600 text-white font-semibold py-2 rounded-xl shadow hover:bg-pink-700 transition text-sm flex items-center justify-center click-ripple ap-btn-press">
+                        <i class="fa-solid fa-cloud-arrow-up mr-2"></i> පීඩීඑෆ් එකතු කරන්න (Upload PDF)
+                    </button>
+                `;
+            } else {
+                activeContainer.innerHTML = `
+                    <input type="text" id="resTitle" placeholder="මාතෘකාව (උදා: Organic Paper 04)" class="border border-gray-300 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <select id="resSubject" class="border border-gray-300 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="Chemistry">Chemistry</option>
+                        <option value="Physics">Physics</option>
+                    </select>
+                    <input type="text" id="resourcePaperLinkInput" placeholder="Paper PDF Link (URL)" class="border border-gray-300 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <input type="text" id="resourceMarkingLinkInput" placeholder="Marking Scheme PDF Link (URL)" class="border border-gray-300 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <button onclick="addNewResource()" class="bg-blue-600 text-white font-semibold py-2 rounded-xl shadow hover:bg-blue-700 transition text-sm flex items-center justify-center click-ripple ap-btn-press">
+                        <i class="fa-solid fa-cloud-arrow-up mr-2"></i> පීඩීඑෆ් එකතු කරන්න (Upload PDF)
+                    </button>
+                `;
+            }
+        }
+
+        function switchSubjectTab(subject) {
+            currentActiveTab = subject;
+            
+            const chemBtn = document.getElementById('tab-chemistry');
+            const physBtn = document.getElementById('tab-physics');
+            
+            if(subject === 'Chemistry') {
+                chemBtn.className = 'px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl font-bold shadow transition bg-blue-600 text-white flex items-center click-ripple ap-btn-press text-sm';
+                physBtn.className = 'px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl font-bold shadow transition bg-white text-gray-700 hover:bg-gray-100 flex items-center border border-gray-200 click-ripple ap-btn-press text-sm';
+            } else {
+                physBtn.className = 'px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl font-bold shadow transition bg-indigo-600 text-white flex items-center click-ripple ap-btn-press text-sm';
+                chemBtn.className = 'px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl font-bold shadow transition bg-white text-gray-700 hover:bg-gray-100 flex items-center border border-gray-200 click-ripple ap-btn-press text-sm';
+            }
+            
+            renderCategoryItems();
+        }
+
+        function backToResources() {
+            document.getElementById('category-view').classList.add('hidden');
+            showResources(currentActiveBatch);
+        }
+
+        function showHome() {
+            document.getElementById('resources-view').classList.add('hidden');
+            document.getElementById('category-view').classList.add('hidden');
+            document.getElementById('rankings-view').classList.add('hidden');
+            document.getElementById('home-view').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function requireLoginForPdf(actionName, pdfTitle, targetUrl) {
+            if(!currentUser) {
+                showCustomMessage('පිවිසීම අත්‍යවශ්‍යයි!', 'පීඩීඑෆ් බැලීමට හෝ ඩවුන්ලෝඩ් කිරීමට කරුණාකර පළමුව පද්ධතියට පිවිසෙන්න (Excel ශීට් එකේ ඇති Zoom අංකයෙන් Login වන්න).');
+                openAuthModal('login');
+                return;
+            }
+
+            if(targetUrl === '#') {
+                showCustomMessage('තොරතුරුයි', `${pdfTitle} සඳහා ${actionName} ලින්ක් එකක් ඇතුළත් කර නැත.`);
+                return;
+            }
+
+            if(actionName === 'Preview' || actionName === 'Marking') {
+                window.open(targetUrl, '_blank');
+            } else {
+                showCustomMessage('බාගත කිරීම', `${pdfTitle} බාගත කිරීම ආරම්භ වේ...`);
+            }
+        }
+
+        function renderCategoryItems() {
+            const container = document.getElementById('categoryItemsContainer');
+            container.innerHTML = '';
+            
+            const batchStore = batchResources[currentActiveBatch] || {};
+            let list = batchStore[currentCategoryKey] || [];
+            
+            let filteredList = list.filter(item => item.subject === currentActiveTab);
+            
+            const searchInput = document.getElementById('resourceSearchInput');
+            const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
+            
+            if(query !== '') {
+                filteredList = filteredList.filter(item => item.title.toLowerCase().includes(query));
+            }
+            
+            if(filteredList.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full text-center py-12 bg-white rounded-2xl shadow-sm border border-gray-200">
+                        <i class="fa-solid fa-folder-open text-gray-300 text-5xl mb-3"></i>
+                        <p class="text-gray-500 font-medium">${currentActiveBatch} Batch සඳහා මෙම සෙවුම් පදයට ගැළපෙන සම්පත් කිසිවක් හමු නොවීය.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            const isInstructor = currentUser && (currentUser.zoomNumber === '25017' || currentUser.email === 'instructor@dsd.com');
+
+            filteredList.forEach(item => {
+                const badgeColor = item.subject === 'Chemistry' ? 'bg-blue-100 text-blue-700' : 'bg-indigo-100 text-indigo-700';
+                
+                const card = document.createElement('div');
+                card.className = 'bg-white p-6 rounded-2xl shadow-md border border-gray-200 card-hover flex flex-col justify-between relative';
+                
+                let deleteButtonHTML = '';
+                if(isInstructor) {
+                    deleteButtonHTML = `
+                        <button onclick="deleteResource(${item.id})" class="absolute top-4 right-4 bg-red-100 hover:bg-red-600 text-red-600 hover:text-white p-2 rounded-xl transition text-xs flex items-center gap-1 shadow-sm" title="Delete Paper">
+                            <i class="fa-solid fa-trash-can"></i> ඩිලීට් කරන්න
+                        </button>
+                    `;
+                }
+
+                if (currentCategoryKey === 'Special Tests' || currentCategoryKey === 'Past Papers') {
+                    const mcqPUrl = item.mcqPaperLink;
+                    const mcqMUrl = item.mcqMarkingLink;
+                    const essayPUrl = item.essayPaperLink;
+                    const essayMUrl = item.essayMarkingLink;
+
+                    card.innerHTML = `
+                        ${deleteButtonHTML}
+                        <div>
+                            <div class="flex justify-between items-center mb-3 pr-24">
+                                <span class="${badgeColor} text-xs px-3 py-1 rounded-full font-semibold">${item.subject} (${currentActiveBatch})</span>
+                                <span class="text-gray-400 text-xs"><i class="fa-regular fa-calendar mr-1"></i>${item.date}</span>
+                            </div>
+                            <h4 class="text-lg font-bold text-gray-800 mb-2">${item.title}</h4>
+                            <p class="text-gray-600 text-sm mb-4">MCQ සහ Essay පත්‍ර හා ඒවාට අදාළ Marking Schemes වෙන වෙනම පහතින් ලබාගත හැක.</p>
+                        </div>
+                        <div class="space-y-4 pt-3 border-t border-gray-100">
+                            <!-- MCQ Section -->
+                            <div class="bg-purple-50 p-3 rounded-xl border border-purple-100 space-y-2">
+                                <div class="text-xs font-bold text-purple-900"><i class="fa-solid fa-list-check mr-1"></i> MCQ Paper & Marking:</div>
+                                <div class="flex gap-2">
+                                    <button onclick="requireLoginForPdf('Preview', '${item.title} (MCQ Paper)', '${mcqPUrl}')" class="flex-1 bg-purple-600 hover:bg-purple-700 text-white font-semibold py-1.5 px-2 rounded-lg shadow transition text-xs flex items-center justify-center click-ripple ap-btn-press">
+                                        <i class="fa-solid fa-eye mr-1"></i> Preview
+                                    </button>
+                                    <button onclick="requireLoginForPdf('Download', '${item.title} (MCQ Paper)', '${mcqPUrl}')" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-1.5 px-2 rounded-lg shadow transition text-xs flex items-center justify-center click-ripple ap-btn-press">
+                                        <i class="fa-solid fa-download mr-1"></i> Download
+                                    </button>
+                                </div>
+                                <div class="flex gap-2 pt-1">
+                                    <button onclick="requireLoginForPdf('Marking', '${item.title} (MCQ Marking)', '${mcqMUrl}')" class="flex-1 bg-amber-600 hover:bg-amber-700 text-white font-semibold py-1.5 px-2 rounded-lg shadow transition text-xs flex items-center justify-center click-ripple ap-btn-press">
+                                        <i class="fa-solid fa-check-double mr-1"></i> Marking
+                                    </button>
+                                    <button onclick="requireLoginForPdf('Download Marking', '${item.title} (MCQ Marking)', '${mcqMUrl}')" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-1.5 px-2 rounded-lg shadow transition text-xs flex items-center justify-center click-ripple ap-btn-press">
+                                        <i class="fa-solid fa-file-arrow-down mr-1"></i> DL Marking
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- Essay Section -->
+                            <div class="bg-indigo-50 p-3 rounded-xl border border-indigo-100 space-y-2">
+                                <div class="text-xs font-bold text-indigo-900"><i class="fa-solid fa-pen-nib mr-1"></i> Essay Paper & Marking:</div>
+                                <div class="flex gap-2">
+                                    <button onclick="requireLoginForPdf('Preview', '${item.title} (Essay Paper)', '${essayPUrl}')" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-1.5 px-2 rounded-lg shadow transition text-xs flex items-center justify-center click-ripple ap-btn-press">
+                                        <i class="fa-solid fa-eye mr-1"></i> Preview
+                                    </button>
+                                    <button onclick="requireLoginForPdf('Download', '${item.title} (Essay Paper)', '${essayPUrl}')" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-1.5 px-2 rounded-lg shadow transition text-xs flex items-center justify-center click-ripple ap-btn-press">
+                                        <i class="fa-solid fa-download mr-1"></i> Download
+                                    </button>
+                                </div>
+                                <div class="flex gap-2 pt-1">
+                                    <button onclick="requireLoginForPdf('Marking', '${item.title} (Essay Marking)', '${essayMUrl}')" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-1.5 px-2 rounded-lg shadow transition text-xs flex items-center justify-center click-ripple ap-btn-press">
+                                        <i class="fa-solid fa-check-double mr-1"></i> Marking
+                                    </button>
+                                    <button onclick="requireLoginForPdf('Download Marking', '${item.title} (Essay Marking)', '${essayMUrl}')" class="flex-1 bg-teal-600 hover:bg-teal-700 text-white font-semibold py-1.5 px-2 rounded-lg shadow transition text-xs flex items-center justify-center click-ripple ap-btn-press">
+                                        <i class="fa-solid fa-file-arrow-down mr-1"></i> DL Marking
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else if (currentCategoryKey === 'Short Notes') {
+                    const paperUrl = item.paperLink;
+                    card.innerHTML = `
+                        ${deleteButtonHTML}
+                        <div>
+                            <div class="flex justify-between items-center mb-3 pr-24">
+                                <span class="${badgeColor} text-xs px-3 py-1 rounded-full font-semibold">${item.subject} (${currentActiveBatch})</span>
+                                <span class="text-gray-400 text-xs"><i class="fa-regular fa-calendar mr-1"></i>${item.date}</span>
+                            </div>
+                            <h4 class="text-lg font-bold text-gray-800 mb-2">${item.title}</h4>
+                            <p class="text-gray-600 text-sm mb-4">පාඩමට අදාළ කෙටි සටහන (Single Short Note File) පහතින් ලබාගන්න.</p>
+                        </div>
+                        <div class="space-y-2 pt-2 border-t border-gray-100">
+                            <div class="flex gap-2">
+                                <button onclick="requireLoginForPdf('Preview', '${item.title}', '${paperUrl}')" class="flex-1 bg-pink-600 hover:bg-pink-700 text-white font-semibold py-2 px-2 rounded-xl shadow transition text-xs flex items-center justify-center click-ripple ap-btn-press">
+                                    <i class="fa-solid fa-eye mr-1"></i> Preview Note
+                                </button>
+                                <button onclick="requireLoginForPdf('Download', '${item.title}', '${paperUrl}')" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-2 rounded-xl shadow transition text-xs flex items-center justify-center click-ripple ap-btn-press">
+                                    <i class="fa-solid fa-download mr-1"></i> Download
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    let markingSectionHTML = '';
+                    if(item.markingLink !== undefined) {
+                        const markingUrl = item.markingLink;
+                        markingSectionHTML = `
+                            <div class="pt-2 border-t border-gray-100 space-y-2">
+                                <div class="text-xs font-semibold text-gray-600">Marking Scheme:</div>
+                                <div class="flex gap-2">
+                                    <button onclick="requireLoginForPdf('Marking', '${item.title} (Marking)', '${markingUrl}')" class="flex-1 bg-amber-500 hover:bg-amber-600 text-white font-semibold py-2 px-2 rounded-xl shadow transition text-xs flex items-center justify-center click-ripple ap-btn-press">
+                                        <i class="fa-solid fa-eye mr-1"></i> Preview
+                                    </button>
+                                    <button onclick="requireLoginForPdf('Download Marking', '${item.title} (Marking)', '${markingUrl}')" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 px-2 rounded-xl shadow transition text-xs flex items-center justify-center click-ripple ap-btn-press">
+                                        <i class="fa-solid fa-file-arrow-down mr-1"></i> Download
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                    }
+
+                    const paperUrl = item.paperLink;
+
+                    card.innerHTML = `
+                        ${deleteButtonHTML}
+                        <div>
+                            <div class="flex justify-between items-center mb-3 pr-24">
+                                <span class="${badgeColor} text-xs px-3 py-1 rounded-full font-semibold">${item.subject} (${currentActiveBatch})</span>
+                                <span class="text-gray-400 text-xs"><i class="fa-regular fa-calendar mr-1"></i>${item.date}</span>
+                            </div>
+                            <h4 class="text-lg font-bold text-gray-800 mb-2">${item.title}</h4>
+                            <p class="text-gray-600 text-sm mb-4">ප්‍රශ්න පත්‍රය සහ අදාළ ලකුණු ලබාදීමේ සටහන (Marking) වෙන වෙනම බාගත හෝ Preview කරගන්න.</p>
+                        </div>
+                        <div class="space-y-3 pt-2 border-t border-gray-100">
+                            <div class="space-y-2">
+                                <div class="text-xs font-semibold text-gray-600">Question Paper:</div>
+                                <div class="flex gap-2">
+                                    <button onclick="requireLoginForPdf('Preview', '${item.title}', '${paperUrl}')" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-2 rounded-xl shadow transition text-xs flex items-center justify-center click-ripple ap-btn-press">
+                                        <i class="fa-solid fa-eye mr-1"></i> Preview
+                                    </button>
+                                    <button onclick="requireLoginForPdf('Download', '${item.title}', '${paperUrl}')" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-2 rounded-xl shadow transition text-xs flex items-center justify-center click-ripple ap-btn-press">
+                                        <i class="fa-solid fa-download mr-1"></i> Download
+                                    </button>
+                                </div>
+                            </div>
+                            ${markingSectionHTML}
+                        </div>
+                    `;
+                }
+
+                container.appendChild(card);
+            });
+        }
+
+        function addNewResource() {
+            const isInstructor = currentUser && (currentUser.zoomNumber === '25017' || currentUser.email === 'instructor@dsd.com');
+            if(!isInstructor) {
+                showCustomMessage('අවසර නැත!', 'සම්පත් එකතු කිරීමේ හැකියාව ඇත්තේ Instructor වෙත පමණි.');
+                return;
+            }
+
+            const titleInput = document.getElementById('resTitle');
+            const subjectSelect = document.getElementById('resSubject');
+            
+            if(!titleInput) return;
+            const title = titleInput.value.trim();
+            const subject = subjectSelect.value;
+            
+            if(!title) {
+                showCustomMessage('දෝෂයකි!', 'කරුණාකර මාතෘකාව ඇතුළත් කරන්න!');
+                return;
+            }
+            
+            let newRes = {};
+            
+            if (currentCategoryKey === 'Special Tests' || currentCategoryKey === 'Past Papers') {
+                const mcqPaper = document.getElementById('resMcqPaper').value.trim();
+                const mcqMarking = document.getElementById('resMcqMarking').value.trim();
+                const essayPaper = document.getElementById('resEssayPaper').value.trim();
+                const essayMarking = document.getElementById('resEssayMarking').value.trim();
+                
+                newRes = {
+                    id: Date.now(),
+                    title: title,
+                    subject: subject,
+                    date: new Date().toISOString().split('T')[0],
+                    mcqPaperLink: mcqPaper ? mcqPaper : '#',
+                    mcqMarkingLink: mcqMarking ? mcqMarking : '#',
+                    essayPaperLink: essayPaper ? essayPaper : '#',
+                    essayMarkingLink: essayMarking ? essayMarking : '#'
+                };
+            } else if (currentCategoryKey === 'Short Notes') {
+                const paperLink = document.getElementById('resPaperLink').value.trim();
+                newRes = {
+                    id: Date.now(),
+                    title: title,
+                    subject: subject,
+                    date: new Date().toISOString().split('T')[0],
+                    paperLink: paperLink ? paperLink : '#'
+                };
+            } else {
+                const paperLink = document.getElementById('resourcePaperLinkInput').value.trim();
+                const markingLink = document.getElementById('resourceMarkingLinkInput').value.trim();
+                newRes = {
+                    id: Date.now(),
+                    title: title,
+                    subject: subject,
+                    date: new Date().toISOString().split('T')[0],
+                    paperLink: paperLink ? paperLink : '#',
+                    markingLink: markingLink ? markingLink : '#'
+                };
+            }
+            
+            if(!batchResources[currentActiveBatch]) {
+                batchResources[currentActiveBatch] = {};
+            }
+            if(!batchResources[currentActiveBatch][currentCategoryKey]) {
+                batchResources[currentActiveBatch][currentCategoryKey] = [];
+            }
+            
+            batchResources[currentActiveBatch][currentCategoryKey].unshift(newRes);
+            
+            titleInput.value = '';
+            if(document.getElementById('resMcqPaper')) document.getElementById('resMcqPaper').value = '';
+            if(document.getElementById('resMcqMarking')) document.getElementById('resMcqMarking').value = '';
+            if(document.getElementById('resEssayPaper')) document.getElementById('resEssayPaper').value = '';
+            if(document.getElementById('resEssayMarking')) document.getElementById('resEssayMarking').value = '';
+            if(document.getElementById('resPaperLink')) document.getElementById('resPaperLink').value = '';
+            if(document.getElementById('resourcePaperLinkInput')) document.getElementById('resourcePaperLinkInput').value = '';
+            if(document.getElementById('resourceMarkingLinkInput')) document.getElementById('resourceMarkingLinkInput').value = '';
+            
+            switchSubjectTab(subject);
+            showCustomMessage('සාර්ථකයි!', `${currentActiveBatch} Batch එක සඳහා නව පීඩීඑෆ් සම්පත සාර්ථකව එකතු කරන ලදී!`);
+        }
+
+        function deleteResource(resId) {
+            const isInstructor = currentUser && (currentUser.zoomNumber === '25017' || currentUser.email === 'instructor@dsd.com');
+            if(!isInstructor) {
+                showCustomMessage('අවසර නැත!', 'මෙම සම්පත ඉවත් කිරීමට ඔබට අවසර නැත.');
+                return;
+            }
+
+            if(confirm('මෙම පීඩීඑෆ් සම්පත ඉවත් කිරීමට (Delete කිරීමට) අවශ්‍ය බව ස්ථිරද?')) {
+                let list = batchResources[currentActiveBatch][currentCategoryKey];
+                batchResources[currentActiveBatch][currentCategoryKey] = list.filter(item => item.id !== resId);
+                renderCategoryItems();
+                showCustomMessage('සාර්ථකයි!', 'සම්පත සාර්ථකව ඉවත් කරන ලදී.');
+            }
+        }
+    </script>
+
+</body>
+</html>
